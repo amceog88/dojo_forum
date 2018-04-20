@@ -9,6 +9,51 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-default">
+      <div "collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <%= link_to 'DojoForum',root_path,class: "navbar-brand"%>
+        <div class="pull-right align-middle">
+          <% if current_user %>
+
+            <div class="navbar-brand"><%= link_to current_user.name ,user_path(current_user) %></div>
+            <span class="glyphicon glyphicon-align-justify btn btn-lg dropdown-toggle" data-toggle="dropdown" style="color:gray"></span>
+            <ul class="dropdown-menu">
+              <% if current_user %>
+                <% if current_user&.admin? %>
+                  <li><%= link_to '後台', admin_root_path %></li>
+                <% end %>
+                <li><%= link_to('登出', destroy_user_session_path, method: :delete) %></li>
+                <li><%= link_to('修改密碼', edit_user_registration_path) %></li>
+              <% end %>
+            </ul>
+          <% else %>
+            <div class="navbar-brand"><%= link_to('註冊', new_user_registration_path) %></div>
+            <div class="navbar-brand"><%= link_to('登入', new_user_session_path) %></div>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+    <% if flash[:notice] %>
+    <div class="container">
+      <div class="row">
+        <div class="alert alert-success alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <%= notice %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+
+    <% if flash[:alert] %>
+    <div class="container">
+      <div class="row">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <%= alert %>
+        </div>
+      </div>
+    </div>
+    <% end %>
     <%= yield %>
   </body>
 </html>
